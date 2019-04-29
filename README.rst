@@ -82,6 +82,16 @@ Document any optional config settings here. For example::
     # (optional, default: 24).
     ckanext.odi-certificates.some_setting = some_default_value
 
+    # The odi api certificate base url to search for certificates
+    ckan.odi_certificates.certificate_base_url = https://certificates.theodi.org/en/datasets?
+    # The odi api query parameters used to search for the certificate img. JSON object gets converted to HTML query parameters e.g. datasetUrl=https://datasetUrl&type=badge&format=png
+    ckan.odi_certificates.certificate_img_query_parameters = {"datasetUrl":"", "format":"png", "type":"badge"}
+    # The odi api query parameters used to for the certificate link to the ODI certificate website. JSON object gets converted to HTML query parameters e.g. datasetUrl=https://datasetUrl
+    ckan.odi_certificates.certificate_link_query_parameters = {"datasetUrl":""}
+    # The dataset base url of the CKAN instance
+    ckan.odi_certificates.dataset_base_url = https://data.qld.gov.au
+
+
 
 ------------------------
 Development Installation
