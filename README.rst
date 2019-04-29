@@ -89,7 +89,7 @@ Document any optional config settings here. For example::
     # The odi api query parameters used to for the certificate link to the ODI certificate website. JSON object gets converted to HTML query parameters e.g. datasetUrl=https://datasetUrl
     ckan.odi_certificates.certificate_link_query_parameters = {"datasetUrl":""}
     # The dataset base url of the CKAN instance
-    ckan.odi_certificates.dataset_base_url = https://data.qld.gov.au
+    ckan.odi_certificates.dataset_base_url = https://datasetUrl
 
 
 
