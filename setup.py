@@ -5,10 +5,6 @@ from os import path
 
 here = path.abspath(path.dirname(__file__))
 
-# Get the long description from the relevant file
-with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
-    long_description = f.read()
-
 setup(
     name='''ckanext-odi-certificates''',
 
@@ -17,8 +13,8 @@ setup(
     # http://packaging.python.org/en/latest/tutorial.html#version
     version='0.0.1',
 
-    description='''A custom extension to show Open Data Certificate badge and hyperlink for a Dataset''',
-    long_description=long_description,
+    description='''''',
+    long_description='''''',
 
     # The project's main homepage.
     url='https://github.com//ckanext-odi-certificates',
@@ -81,6 +77,7 @@ setup(
     entry_points='''
         [ckan.plugins]
         odi_certificates=ckanext.odi_certificates.plugin:ODICertificatesPlugin
+        
         [babel.extractors]
         ckan = ckan.lib.extract:extract_ckan
     ''',
