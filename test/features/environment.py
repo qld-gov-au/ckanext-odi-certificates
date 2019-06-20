@@ -18,6 +18,11 @@ PERSONAS = {
         name=u'admin',
         email=u'admin@localhost',
         password=u'password'
+    ),
+    'SalsaAdmin': dict(
+        name=u'salsa_admin',
+        email=u'salsa_admin@localhost',
+        password=u'password'
     )
 }
 
