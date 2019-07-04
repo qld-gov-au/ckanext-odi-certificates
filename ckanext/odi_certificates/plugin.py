@@ -1,9 +1,10 @@
-import ckan.plugins as plugins
-import ckan.plugins.toolkit as toolkit
-import ckan.lib.helpers as helpers
-from ckan.common import config
 import json
 import urllib
+
+import ckan.lib.helpers as helpers
+import ckan.plugins as plugins
+import ckan.plugins.toolkit as toolkit
+from ckan.common import config
 
 
 def certificate_api_urls():
@@ -15,15 +16,16 @@ def certificate_api_urls():
     certificate_base_url = config.get('ckan.odi_certificates.certificate_base_url')
     dataset_base_url = config.get('ckan.odi_certificates.dataset_base_url')
     dataset_Url = dataset_base_url + helpers.current_url()
-    certificate_img_query_paramaters = json.loads(config.get('ckan.odi_certificates.certificate_img_query_paramaters'))
-    certificate_img_query_paramaters['datasetUrl'] = dataset_Url
-    certificate_link_query_paramaters = json.loads(config.get('ckan.odi_certificates.certificate_link_query_paramaters'))
-    certificate_link_query_paramaters['datasetUrl'] = dataset_Url
-  
-    certificate_img_url = certificate_base_url + urllib.urlencode(certificate_img_query_paramaters)
-    certificate_link_url = certificate_base_url + urllib.urlencode(certificate_link_query_paramaters)
+    certificate_img_query_parameters = json.loads(config.get('ckan.odi_certificates.certificate_img_query_parameters'))
+    certificate_img_query_parameters['datasetUrl'] = dataset_Url
+    certificate_link_query_parameters = json.loads(
+        config.get('ckan.odi_certificates.certificate_link_query_parameters'))
+    certificate_link_query_parameters['datasetUrl'] = dataset_Url
 
-    return json.dumps({"certificate_img_url":certificate_img_url,"certificate_link_url":certificate_link_url})
+    certificate_img_url = certificate_base_url + urllib.urlencode(certificate_img_query_parameters)
+    certificate_link_url = certificate_base_url + urllib.urlencode(certificate_link_query_parameters)
+
+    return json.dumps({"certificate_img_url": certificate_img_url, "certificate_link_url": certificate_link_url})
 
 
 class ODICertificatesPlugin(plugins.SingletonPlugin):
