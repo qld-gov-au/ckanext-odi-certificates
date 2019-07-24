@@ -1,20 +1,19 @@
+@odi-certificates
 Feature: ODI Certificates
 
-    Scenario: Create a new test organisation for subsequent tests
+    Background:
         Given "Admin" as the persona
         When I log in
+
+    Scenario: Create a new test organisation for subsequent tests
         Then I go to add new organisation
         When I fill in "title" with "Test Organisation"
         When I press "save"
 
     Scenario: Add a test dataset to the test organisation that we know has an ODI certificate
-        Given "Admin" as the persona
-        When I log in
         Then I create a dataset with title "Youth Justice - Young offenders in youth detention" and notes "A description"
 
     Scenario: Add a test dataset to the test organisation that we know does not have an ODI certificate
-        Given "Admin" as the persona
-        When I log in
         Then I create a dataset with title "Test dataset without ODI certificate" and notes "A description"
 
     Scenario: Check the test dataset with known ODI certificate to ensure certificate badge displays on dataset detail page
