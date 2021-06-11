@@ -10,8 +10,6 @@ RUN curl -s -L -O https://github.com/jwilder/dockerize/releases/download/${DOCKE
     && tar -C /usr/local/bin -xzvf dockerize-alpine-linux-amd64-${DOCKERIZE_VERSION}.tar.gz \
     && rm dockerize-alpine-linux-amd64-${DOCKERIZE_VERSION}.tar.gz
 
-RUN mkdir -p $WORKDIR
-
 COPY .docker/test.ini $APP_DIR/production.ini
 
 COPY .docker/scripts $WORKDIR/scripts

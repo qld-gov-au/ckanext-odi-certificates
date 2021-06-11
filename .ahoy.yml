@@ -73,7 +73,7 @@ commands:
     usage: Install a site.
     cmd: |
       ahoy title "Installing a fresh site"
-      ahoy cli "/srv/app/scripts/init.sh"
+      ahoy cli "./scripts/init.sh"
 
   clean:
     usage: Remove containers and all build files.
@@ -95,7 +95,7 @@ commands:
   install-dev:
     usage: Install dependencies.
     cmd: |
-      ahoy cli "pip install -r /srv/app/requirements-dev.txt"
+      ahoy cli "pip install -r requirements-dev.txt"
     hide: true
 
   flush-redis:
@@ -105,7 +105,7 @@ commands:
   lint:
     usage: Lint code.
     cmd: |
-      ahoy cli "flake8 ${@:-/srv/app/ckanext}" || \
+      ahoy cli "flake8 ${@:-ckanext}" || \
       [ "${ALLOW_LINT_FAIL:-0}" -eq 1 ]
 
   test-unit:
@@ -117,7 +117,7 @@ commands:
   test-bdd:
     usage: Run BDD tests.
     cmd: |
-      ahoy cli "behave ${*:-/srv/app/test/features}" || \
+      ahoy cli "behave ${*:-test/features}" || \
       [ "${ALLOW_BDD_FAIL:-0}" -eq 1 ]
 
   # Utilities.
