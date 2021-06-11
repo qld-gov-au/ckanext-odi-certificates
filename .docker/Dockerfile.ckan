@@ -1,4 +1,4 @@
-FROM openknowledge/ckan:2.8
+FROM openknowledge/ckan-dev:2.8
 
 ENV WORKDIR="${WORKDIR}"
 
