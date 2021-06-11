@@ -29,4 +29,4 @@ RUN chmod +x ${APP_DIR}/scripts/*.sh\
 # Init current extension.
 RUN ${APP_DIR}/scripts/init-ext.sh
 
-CMD ["${APP_DIR}/scripts/serve.sh"]
+CMD "${APP_DIR}/scripts/serve.sh"
