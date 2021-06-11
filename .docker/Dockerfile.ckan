@@ -21,7 +21,7 @@ COPY ckanext $WORKDIR/ckanext
 
 COPY test $WORKDIR/test
 
-COPY *requirements*.txt setup.* .flake8 $WORKDIR/
+COPY requirements.txt requirements-dev.txt setup.cfg setup.py .flake8 $WORKDIR/
 
 RUN chmod +x $WORKDIR/scripts/*.sh\
     && chmod +x ${APP_DIR}/bin/ckan_cli
