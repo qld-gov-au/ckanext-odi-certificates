@@ -23,8 +23,7 @@ COPY test $WORKDIR/test
 
 COPY *requirements*.txt setup.* .flake8 $WORKDIR/
 
-RUN fix-permissions $WORKDIR/ckan \
-    && chmod +x $WORKDIR/scripts/*.sh\
+RUN chmod +x $WORKDIR/scripts/*.sh\
     && chmod +x ${APP_DIR}/bin/ckan_cli
 
 RUN $WORKDIR/scripts/init-ext.sh
