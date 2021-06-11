@@ -6,10 +6,10 @@ x-project:
 x-volumes:
   &default-volumes
   volumes:
-    - /var/lib/ckan ### Local overrides to mount host filesystem. Automatically removed in CI and PROD.
-    - ./ckanext:/srv/app/ckanext:${VOLUME_FLAGS:-delegated} ### Local overrides to mount host filesystem. Automatically removed in CI and PROD.
-    - ./test:/srv/app/test:${VOLUME_FLAGS:-delegated} ### Local overrides to mount host filesystem. Automatically removed in CI and PROD.
-    ##- /srv/app/filestore # Override for environment without host mounts. Automatically uncommented in CI.
+    - /app/ckan ### Local overrides to mount host filesystem. Automatically removed in CI and PROD.
+    - ./ckanext:/app/ckanext:${VOLUME_FLAGS:-delegated} ### Local overrides to mount host filesystem. Automatically removed in CI and PROD.
+    - ./test:/app/test:${VOLUME_FLAGS:-delegated} ### Local overrides to mount host filesystem. Automatically removed in CI and PROD.
+    ##- /app/filestore # Override for environment without host mounts. Automatically uncommented in CI.
 
 x-environment:
   &default-environment
@@ -29,7 +29,7 @@ services:
       context: .
       dockerfile: .docker/Dockerfile.ckan
       args:
-        SITE_URL: "http://ckan:3000/"
+        SITE_URL: "http://${PROJECT}.docker.amazee.io"
     depends_on:
       - postgres
       - solr
