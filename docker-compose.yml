@@ -29,7 +29,7 @@ services:
       context: .
       dockerfile: .docker/Dockerfile.ckan
       args:
-        SITE_URL: "http://${PROJECT}.docker.amazee.io"
+        SITE_URL: "http://ckan:3000/"
     depends_on:
       - postgres
       - solr
