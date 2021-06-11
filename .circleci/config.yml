@@ -3,7 +3,7 @@ aliases:
 
   # Shared configuration applied to each job.
   - &container_config
-    working_directory: /app
+    working_directory: /srv/app
     docker:
       #; Using "runner" container where each job will be executed. This container
       #; has all necessary tools to run dockerized environment.
