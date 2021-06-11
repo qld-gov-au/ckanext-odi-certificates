@@ -6,9 +6,9 @@ ARG SITE_URL
 ENV SITE_URL="${SITE_URL}"
 
 ENV DOCKERIZE_VERSION v0.6.1
-RUN apt-get install curl && curl -s -L -O https://github.com/jwilder/dockerize/releases/download/${DOCKERIZE_VERSION}/dockerize-linux-amd64-${DOCKERIZE_VERSION}.tar.gz \
-    && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-${DOCKERIZE_VERSION}.tar.gz \
-    && rm dockerize-linux-amd64-${DOCKERIZE_VERSION}.tar.gz
+RUN curl -s -L -O https://github.com/jwilder/dockerize/releases/download/${DOCKERIZE_VERSION}/dockerize-alpine-linux-amd64-${DOCKERIZE_VERSION}.tar.gz \
+    && tar -C /usr/local/bin -xzvf dockerize-alpine-linux-amd64-${DOCKERIZE_VERSION}.tar.gz \
+    && rm dockerize-alpine-linux-amd64-${DOCKERIZE_VERSION}.tar.gz
 
 RUN mkdir -p $WORKDIR
 
