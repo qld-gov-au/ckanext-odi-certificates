@@ -1,9 +1,9 @@
 FROM openknowledge/ckan-dev:2.8
 
-WORKDIR="${APP_DIR}"
-
 ARG SITE_URL
 ENV SITE_URL="${SITE_URL}"
+
+WORKDIR "${APP_DIR}"
 
 ENV DOCKERIZE_VERSION v0.6.1
 RUN curl -s -L -O https://github.com/jwilder/dockerize/releases/download/${DOCKERIZE_VERSION}/dockerize-alpine-linux-amd64-${DOCKERIZE_VERSION}.tar.gz \
