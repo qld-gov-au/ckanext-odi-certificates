@@ -10,7 +10,9 @@ RUN curl -s -L -O https://github.com/jwilder/dockerize/releases/download/${DOCKE
     && tar -C /usr/local/bin -xzvf dockerize-alpine-linux-amd64-${DOCKERIZE_VERSION}.tar.gz \
     && rm dockerize-alpine-linux-amd64-${DOCKERIZE_VERSION}.tar.gz
 
-COPY .docker/test.ini $APP_DIR/production.ini
+RUN apk add --no-cache tini
+
+COPY .docker/test.ini $CKAN_INI
 
 COPY .docker/scripts ${APP_DIR}/scripts
 
@@ -29,4 +31,5 @@ RUN chmod +x ${APP_DIR}/scripts/*.sh\
 # Init current extension.
 RUN ${APP_DIR}/scripts/init-ext.sh
 
-CMD "${APP_DIR}/scripts/serve.sh"
+ENTRYPOINT ["/sbin/tini", "--"]
+CMD ["/srv/app/scripts/serve.sh"]
