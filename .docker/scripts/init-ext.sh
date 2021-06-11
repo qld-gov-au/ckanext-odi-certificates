@@ -5,6 +5,7 @@
 set -e
 
 cd $WORKDIR
+ls -al
 pip install -r "requirements.txt"
 pip install -r "requirements-dev.txt"
 python setup.py develop
