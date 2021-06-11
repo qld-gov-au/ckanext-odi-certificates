@@ -1,6 +1,6 @@
 FROM openknowledge/ckan-dev:2.8
 
-ENV WORKDIR="${WORKDIR}"
+ENV WORKDIR="${APP_DIR}"
 
 ARG SITE_URL
 ENV SITE_URL="${SITE_URL}"
