@@ -26,6 +26,7 @@ COPY *requirements*.txt setup.* .flake8 $WORKDIR/
 RUN chmod +x $WORKDIR/scripts/*.sh\
     && chmod +x ${APP_DIR}/bin/ckan_cli
 
+# Init current extension.
 RUN $WORKDIR/scripts/init-ext.sh
 
 CMD ["$WORKDIR/scripts/serve.sh"]
