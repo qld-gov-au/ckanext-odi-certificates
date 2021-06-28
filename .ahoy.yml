@@ -10,13 +10,18 @@ commands:
       ahoy title "Building project"
       ahoy pre-flight
       ahoy clean
-      (docker network prune -f > /dev/null && docker network inspect amazeeio-network > /dev/null || docker network create amazeeio-network)
+      ahoy build-network
       ahoy up -- --build --force-recreate
-      ahoy install-dev
       ahoy install-site
       ahoy title "Build complete"
       ahoy doctor
       ahoy info 1
+
+  build-network:
+    usage: Ensure that the amazeeio network exists.
+    cmd: |
+      docker network prune -f > /dev/null
+      docker network inspect amazeeio-network > /dev/null || docker network create amazeeio-network
 
   info:
     usage: Print information about this project.
@@ -65,7 +70,7 @@ commands:
 
   cli:
     usage: Start a shell inside CLI container or run a command.
-    cmd: if \[ "${#}" -ne 0 \]; then docker exec $(docker-compose ps -q ckan) sh -c '. ${VENV_DIR}/bin/activate;'" cd /app/; $*"; else docker exec $(docker-compose ps -q ckan) sh -c '. ${VENV_DIR}/bin/activate && cd /app/ && sh'; fi
+    cmd: if \[ "${#}" -ne 0 \]; then docker exec $(docker-compose ps -q ckan) sh -c '. ${VENV_DIR}/bin/activate; cd $APP_DIR;'" $*"; else docker exec $(docker-compose ps -q ckan) sh -c '. ${VENV_DIR}/bin/activate && cd $APP_DIR && sh'; fi
 
   doctor:
     usage: Find problems with current project setup.
@@ -94,12 +99,6 @@ commands:
       git ls-files --others -i --exclude-from=.git/info/exclude | xargs rm -Rf
       find . -type d -not -path "./.git/*" -empty -delete
 
-  install-dev:
-    usage: Install dependencies.
-    cmd: |
-      ahoy cli "pip install -r requirements-dev.txt"
-    hide: true
-
   flush-redis:
     usage: Flush Redis cache.
     cmd: docker exec -i $(docker-compose ps -q redis) redis-cli flushall > /dev/null
@@ -113,7 +112,7 @@ commands:
   test-unit:
     usage: Run unit tests.
     cmd: |
-      ahoy cli "nosetests" || \
+      ahoy cli 'nosetests --with-pylons=${CKAN_INI}' || \
       [ "${ALLOW_UNIT_FAIL:-0}" -eq 1 ]
 
   test-bdd:
@@ -156,5 +155,5 @@ entrypoint:
     export LAGOON_LOCALDEV_URL=http://ckanext-odi-certificates.docker.amazee.io
     [ -f .env ] && [ -s .env ] && export $(grep -v '^#' .env | xargs) && if [ -f .env.local ] && [ -s .env.local ]; then export $(grep -v '^#' .env.local | xargs); fi
     bash -e -c "$0" "$@"
-  - '{{cmd}}'
-  - '{{name}}'
+  - "{{cmd}}"
+  - "{{name}}"
