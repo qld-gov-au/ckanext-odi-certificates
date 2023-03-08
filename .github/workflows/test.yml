@@ -12,7 +12,7 @@ jobs:
 
     name: Continuous Integration build
     runs-on: ubuntu-latest
-    container: integratedexperts/ci-builder
+    container: drevops/ci-builder
 
     steps:
       - uses: actions/checkout@v2
