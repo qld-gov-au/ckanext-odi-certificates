@@ -17,7 +17,7 @@ setup(
     long_description='''''',
 
     # The project's main homepage.
-    url='https://github.com//ckanext-odi-certificates',
+    url='https://github.com/qld-gov-au/ckanext-odi-certificates',
 
     # Author details
     author='''Salsa Digital''',
@@ -32,7 +32,7 @@ setup(
         # 3 - Alpha
         # 4 - Beta
         # 5 - Production/Stable
-        'Development Status :: 4 - Beta',
+        'Development Status :: 5 - Production/Stable',
 
         # Pick your license as you wish (should match "license" above)
         'License :: OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)',
@@ -44,7 +44,7 @@ setup(
 
 
     # What does your project relate to?
-    keywords='''CKAN''',
+    keywords='CKAN',
 
     # You can just specify the packages manually here if your project is
     # simple. Or you can use find_packages().
@@ -52,18 +52,17 @@ setup(
     namespace_packages=['ckanext'],
 
     install_requires=[
-      # CKAN extensions should not list dependencies here, but in a separate
-      # ``requirements.txt`` file.
-      #
-      # http://docs.ckan.org/en/latest/extensions/best-practices.html#add-third-party-libraries-to-requirements-txt
+        # CKAN extensions should not list dependencies here, but in a separate
+        # ``requirements.txt`` file.
+        #
+        # http://docs.ckan.org/en/latest/extensions/best-practices.html#add-third-party-libraries-to-requirements-txt
     ],
 
     # If there are data files included in your packages that need to be
     # installed, specify them here.  If using Python 2.6 or less, then these
     # have to be included in MANIFEST.in as well.
     include_package_data=True,
-    package_data={
-    },
+    package_data={},
 
     # Although 'package_data' is the preferred approach, in some case you may
     # need to place data files outside of your packages.
@@ -77,7 +76,7 @@ setup(
     entry_points='''
         [ckan.plugins]
         odi_certificates=ckanext.odi_certificates.plugin:ODICertificatesPlugin
-        
+
         [babel.extractors]
         ckan = ckan.lib.extract:extract_ckan
     ''',

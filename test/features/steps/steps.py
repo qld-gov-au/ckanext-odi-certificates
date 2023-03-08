@@ -1,6 +1,6 @@
-from behave import when
-from behaving.web.steps import *  # noqa: F401, F403
+from behave import step, when
 from behaving.personas.steps import *  # noqa: F401, F403
+from behaving.web.steps import *  # noqa: F401, F403
 from behaving.web.steps.url import when_i_visit_url
 
 

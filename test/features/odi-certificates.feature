@@ -2,7 +2,7 @@
 Feature: ODI Certificates
 
     Background:
-        Given "Admin" as the persona
+        Given "SysAdmin" as the persona
         When I log in
 
     Scenario: Create a new test organisation for subsequent tests
