@@ -1,20 +1,20 @@
-from behave import step, when
+from behave import step
 from behaving.personas.steps import *  # noqa: F401, F403
 from behaving.web.steps import *  # noqa: F401, F403
 from behaving.web.steps.url import when_i_visit_url
 
 
-@step('I go to homepage')
+@step(u'I go to homepage')
 def go_to_home(context):
     when_i_visit_url(context, '/')
 
 
-@step('I go to add new dataset')
+@step(u'I go to add new dataset')
 def go_to_add_new_dataset(context):
     when_i_visit_url(context, '/dataset/new')
 
 
-@step('I go to add new organisation')
+@step(u'I go to add new organisation')
 def go_to_add_new_organisation(context):
     when_i_visit_url(context, '/organization/new')
 
@@ -38,7 +38,7 @@ def create_dataset(context, title, notes):
     """ % (title, notes))
 
 
-@when('I log in')
+@step(u'I log in')
 def log_in(context):
 
     assert context.persona

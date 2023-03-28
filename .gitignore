@@ -44,3 +44,6 @@ docs/_build/
 .env.local
 /test/screenshots
 !/test/screenshots/.gitkeep
+
+# generated from template
+Dockerfile.ckan

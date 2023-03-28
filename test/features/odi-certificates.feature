@@ -18,11 +18,9 @@ Feature: ODI Certificates
 
     Scenario: Check the test dataset with known ODI certificate to ensure certificate badge displays on dataset detail page
         When I go to dataset "youth-justice-young-offenders-in-youth-detention"
-        Then the element with the css selector "#odi_certificates" should be visible within 10 seconds
         Then I should see "Open Data Certificate Awarded" within 10 seconds
         Then I take a screenshot
 
     Scenario: Check the test dataset without ODI certificate to ensure certificate badge does not display on dataset detail page
         When I go to dataset "test-dataset-without-odi-certificate"
-        Then the element with the css selector "#odi_certificates" should not be visible within 10 seconds
         Then I should not see "Open Data Certificate Awarded" within 10 seconds

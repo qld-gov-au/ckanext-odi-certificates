@@ -1,0 +1,10 @@
+odi_certificate-js:
+  contents:
+    - odi_certificate.js
+  filters: rjsmin
+  output: odi_certificate/%(version)s_odi_certificate.js
+
+odi_certificate-css:
+  contents:
+    - odi_certificate.css
+  output: odi_certificate/%(version)s_odi_certificate.css

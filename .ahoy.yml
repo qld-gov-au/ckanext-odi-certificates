@@ -38,7 +38,7 @@ commands:
       docker-compose up -d "$@"
       sleep 10
       docker-compose logs
-      ahoy cli "dockerize -wait tcp://ckan:3000 -timeout 1m"
+      ahoy cli "dockerize -wait tcp://ckan:5000 -timeout 1m"
       if docker-compose logs | grep -q "\[Error\]"; then docker-compose logs; exit 1; fi
       if docker-compose logs | grep -q "Exception"; then docker-compose logs; exit 1; fi
       docker ps -a --filter name=^/${COMPOSE_PROJECT_NAME}_
@@ -70,17 +70,17 @@ commands:
 
   cli:
     usage: Start a shell inside CLI container or run a command.
-    cmd: if \[ "${#}" -ne 0 \]; then docker exec $(docker-compose ps -q ckan) sh -c '. ${VENV_DIR}/bin/activate; cd $APP_DIR;'" $*"; else docker exec $(docker-compose ps -q ckan) sh -c '. ${VENV_DIR}/bin/activate && cd $APP_DIR && sh'; fi
+    cmd: if \[ "${#}" -ne 0 \]; then docker exec $(docker-compose ps -q ckan) sh -c '. ${APP_DIR}/bin/activate; cd $APP_DIR;'" $*"; else docker exec $(docker-compose ps -q ckan) sh -c '. ${APP_DIR}/bin/activate && cd $APP_DIR && sh'; fi
 
   doctor:
     usage: Find problems with current project setup.
-    cmd: .docker/scripts/doctor.sh "$@"
+    cmd: bin/doctor.sh "$@"
 
   install-site:
     usage: Install a site.
     cmd: |
       ahoy title "Installing a fresh site"
-      ahoy cli "./scripts/init.sh"
+      ahoy cli '$APP_DIR/bin/init.sh'
 
   clean:
     usage: Remove containers and all build files.
@@ -109,10 +109,17 @@ commands:
       ahoy cli "flake8 ${@:-ckanext}" || \
       [ "${ALLOW_LINT_FAIL:-0}" -eq 1 ]
 
+  copy-local-files:
+    usage: Update files from local repo.
+    cmd: |
+      docker cp . $(docker-compose ps -q ckan):/srv/app/
+      docker cp bin/ckan_cli $(docker-compose ps -q ckan):/usr/bin/
+      ahoy cli 'chmod -v u+x /usr/bin/ckan_cli; cp -v .docker/test.ini $CKAN_INI'
+
   test-unit:
     usage: Run unit tests.
     cmd: |
-      ahoy cli 'nosetests --with-pylons=${CKAN_INI}' || \
+      ahoy cli 'pytest --ckan-ini=${CKAN_INI} $APP_DIR/ckanext' || \
       [ "${ALLOW_UNIT_FAIL:-0}" -eq 1 ]
 
   test-bdd:
@@ -121,7 +128,7 @@ commands:
       ahoy start-ckan-job-worker &
       ahoy start-mailmock &
       sleep 5 &&
-      ahoy cli "behave ${*:-test/features}" || \
+      ahoy cli "behave -k ${*:-test/features}" || \
       [ "${ALLOW_BDD_FAIL:-0}" -eq 1 ]
       ahoy stop-mailmock
       ahoy stop-ckan-job-worker
@@ -130,7 +137,7 @@ commands:
     usage: Starts email mock server used for email BDD tests
     cmd: |
       ahoy title 'Starting mailmock'
-      ahoy cli 'mailmock -p 8025 -o ${APP_DIR}/test/emails --no-stdout' # for debugging mailmock email output remove --no-stdout
+      ahoy cli 'mailmock -p 8025 -o ${APP_DIR}/test/emails' # for debugging mailmock email output remove --no-stdout
 
   stop-mailmock:
     usage: Stops email mock server used for email BDD tests
@@ -139,9 +146,9 @@ commands:
       ahoy cli "killall -2 mailmock"
 
   start-ckan-job-worker:
-    usage: Starts CKAN background job worker
+    usage: Starts default CKAN background job worker
     cmd: |
-      ahoy title 'Starting CKAN background job worker'
+      ahoy title 'Starting default CKAN background job worker'
       ahoy cli "ckan_cli jobs clear && \
                 ckan_cli jobs worker"
 
@@ -182,7 +189,7 @@ entrypoint:
   - "-c"
   - "-e"
   - |
-    export LAGOON_LOCALDEV_URL=http://ckanext-odi-certificates.docker.amazee.io
+    export LAGOON_LOCALDEV_URL=http://$PROJECT.docker.amazee.io
     [ -f .env ] && [ -s .env ] && export $(grep -v '^#' .env | xargs) && if [ -f .env.local ] && [ -s .env.local ]; then export $(grep -v '^#' .env.local | xargs); fi
     bash -e -c "$0" "$@"
   - "{{cmd}}"

@@ -6,21 +6,12 @@ x-project:
 x-volumes:
   &default-volumes
   volumes:
-    - /app/ckan ### Local overrides to mount host filesystem. Automatically removed in CI and PROD.
-    - ./ckanext:/app/ckanext:${VOLUME_FLAGS:-delegated} ### Local overrides to mount host filesystem. Automatically removed in CI and PROD.
-    - ./test:/app/test:${VOLUME_FLAGS:-delegated} ### Local overrides to mount host filesystem. Automatically removed in CI and PROD.
-    ##- /app/filestore # Override for environment without host mounts. Automatically uncommented in CI.
+    - /app/filestore # Override for environment without host mounts. Automatically uncommented in CI.
 
 x-environment:
   &default-environment
   AMAZEEIO: AMAZEEIO
   no_proxy: "ckan,postgres,postgres-datastore,redis,solr,chrome,mailhog.docker.amazee.io"
-
-x-user:
-  &default-user
-  # The default user under which the containers should run.
-  # Change this if you are on linux and run with another user than id `1000`.
-  user: '1000'
 
 services:
 
@@ -28,8 +19,6 @@ services:
     build:
       context: .
       dockerfile: .docker/Dockerfile.ckan
-      args:
-        SITE_URL: "http://${PROJECT}.docker.amazee.io"
     depends_on:
       - postgres
       - solr
@@ -37,29 +26,27 @@ services:
       - amazeeio-network
       - default
     ports:
-      - "3000"
+      - "5000"
     image: *project
     <<: *default-volumes
     environment:
       <<: *default-environment
-      AMAZEEIO_HTTP_PORT: 3000
+      AMAZEEIO_HTTP_PORT: 5000
       LAGOON_LOCALDEV_URL: "http://${PROJECT}.docker.amazee.io"
       AMAZEEIO_URL: "${PROJECT}.docker.amazee.io"
 
   postgres:
-    image: amazeeio/postgres-ckan
+    image: ckan/ckan-postgres-dev:${CKAN_VERSION}
     ports:
       - "5432"
     networks:
       - amazeeio-network
       - default
-    <<: *default-user
     environment:
       <<: *default-environment
 
   redis:
     image: redis:6-alpine
-    <<: *default-user
     environment:
       <<: *default-environment
     networks:
@@ -67,8 +54,7 @@ services:
       - default
 
   solr:
-    image: ckan/ckan-solr-dev:2.8
-    user: '8983'
+    image: ckan/ckan-solr:${CKAN_VERSION}
     ports:
       - "8983"
     environment:
@@ -83,7 +69,6 @@ services:
     depends_on:
       - ckan
     <<: *default-volumes
-    <<: *default-user
     environment:
       <<: *default-environment
     networks:

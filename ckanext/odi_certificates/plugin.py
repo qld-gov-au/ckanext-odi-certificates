@@ -1,5 +1,7 @@
+# encoding: utf-8
+
 import json
-import urllib
+from six.moves.urllib.parse import urlencode
 
 import ckan.lib.helpers as helpers
 import ckan.plugins as plugins
@@ -22,8 +24,8 @@ def certificate_api_urls():
         config.get('ckan.odi_certificates.certificate_link_query_parameters'))
     certificate_link_query_parameters['datasetUrl'] = dataset_Url
 
-    certificate_img_url = certificate_base_url + urllib.urlencode(certificate_img_query_parameters)
-    certificate_link_url = certificate_base_url + urllib.urlencode(certificate_link_query_parameters)
+    certificate_img_url = certificate_base_url + urlencode(certificate_img_query_parameters)
+    certificate_link_url = certificate_base_url + urlencode(certificate_link_query_parameters)
 
     return json.dumps({"certificate_img_url": certificate_img_url, "certificate_link_url": certificate_link_url})
 
@@ -48,4 +50,7 @@ class ODICertificatesPlugin(plugins.SingletonPlugin):
         # Template helper function names should begin with the name of the
         # extension they belong to, to avoid clashing with functions from
         # other extensions.
-        return {'odi_certificates_certificate_api_urls': certificate_api_urls}
+        return {
+            'odi_certificates_certificate_api_urls': certificate_api_urls,
+            'check_ckan_version': toolkit.check_ckan_version
+        }
